@@ -12,17 +12,17 @@ public class CE {
         imprimeMenu(1);
         int opcion = escaneaNum(2);
         if (opcion == 1) {
-            System.out.println("Ingrese el nombre del archivo: ");
-            String rutaIngresada = scanner.next();
-            // Tamaño de la población modificable, en este caso 100
-            GeneticColoration coloracion = new GeneticColoration(rutaIngresada, 100);
-            // Número de generaciones y tasa de mutación modificables, en este caso 100
-            // generaciones y 0.1 de tasa
-            try {
-                coloracion.algoritmoGeneticoElitista(100, 0.1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            imprimeMenu(2);
+            int numFun = escaneaNum(8);
+
+            imprimeMenu(3);
+            int enfriamiento = escaneaNum(8);
+
+            System.out.println("Ingrese la dimensión:");
+            int dimension = escaneaNum(50);
+
+            OptimizacionCombinatoria metodoOptimizacion = new OptimizacionCombinatoria();
+            metodoOptimizacion.ejecutarAlgoritmo(enfriamiento, numFun, dimension);
         } else if (opcion == 2) {
             imprimeMenu(2);
             int numFun = escaneaNum(8);
@@ -119,11 +119,10 @@ public class CE {
 
     private static void imprimeMenu(int opcion) {
         if (opcion == 1) {
-            System.out.println("Algoritmo genético");
-            System.out.println(GREEN + "Seleccione una opción:" + BLANCO);
+            System.out.println("Seleccione uno de los siguientes algoritmos:");
 
-            System.out.println("1. Problema de coloración BLI");
-            System.out.println("2. Problema de optimización continua");
+            System.out.println("1. Recocido Simulado");
+            System.out.println("2. Algoritmo Genético");
         } else if (opcion == 2) {
             System.out.println(GREEN + "Seleccione la función a evaluar:" + BLANCO);
             System.out.println("1. Sphere Function");
@@ -134,6 +133,10 @@ public class CE {
             System.out.println("6. Sum Square Function");
             System.out.println("7. Styblinski-Tang Function");
             System.out.println("8. Dixon-Price Function");
+        } else if (opcion == 3) {
+            System.out.println(GREEN + "Seleccione la función a evaluar:" + BLANCO);
+            System.out.println("1. Enfriamiento 1");
+            System.out.println("2. Enfriamiento 2");
         }
     }
 

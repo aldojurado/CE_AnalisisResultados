@@ -10,7 +10,7 @@ public class Recocido {
      * @param dimension es la dimensión de la función
      * @return un arreglo con la solución encontrada
      */
-    public double[] recocido(int numFun, int dimension) {
+    public double[] recocido(int enfriamiento, int numFun, int dimension) {
         Binario bin = new Binario();
         Evaluador eval = new Evaluador();
         double[] intervalo = eval.intervalo(numFun);
@@ -40,11 +40,23 @@ public class Recocido {
             }
 
             // actualizamos temperatura
-            temp = temp * 0.999;
+            temp = enfriar(temp, enfriamiento, numIt);
 
         }
         // regresamos la solución decodificada
         return bin.decodifica(solucion, NBITS, intervalo[0], intervalo[1]);
+    }
+
+    private double enfriar(double temp, int enfriamiento, int numIt) {
+        // Enfriamiento geométrico
+        if (enfriamiento == 1) {
+            return temp * 0.999;
+        }
+        // Enfriamiento lineal
+        if (numIt % 50 == 0) {
+            return temp - 0.005 * (numIt);
+        }
+        return temp;
     }
 
     /**
