@@ -12,55 +12,56 @@ public class CE {
         imprimeMenu(1);
         int opcion = escaneaNum(2);
         if (opcion == 1) {
-            imprimeMenu(2);
-            int numFun = escaneaNum(8);
-
-            imprimeMenu(3);
-            int enfriamiento = escaneaNum(8);
-
-            System.out.println("Ingrese la dimensión:");
-            int dimension = escaneaNum(50);
-
-            OptimizacionCombinatoria metodoOptimizacion = new OptimizacionCombinatoria();
-            metodoOptimizacion.ejecutarAlgoritmo(enfriamiento, numFun, dimension);
+            ejecutarRecocido();
         } else if (opcion == 2) {
-            imprimeMenu(2);
-            int numFun = escaneaNum(8);
-
-            /*
-             * Parámetros:
-             * 1.- Tamaño de la población
-             * 2.- Semilla para generar población inicial
-             * 3.- Probabilidad de cruza (0,1)
-             * 4.- Probabilidad de mutación (0,1)
-             */
-            System.out.println("Ingrese el tamaño de la población:");
-            int tamPoblacion = escaneaNum(200);
-
-            System.out.println("Ingrese la semilla para generar la población inicial:");
-            int seed = escaneaNum(Integer.MAX_VALUE);
-
-            double probCruza = escaneaProba(1);
-
-            // double probMutacion = escaneaProba(2);
-            double probMutacion = 2 / (double) tamPoblacion;
-
-            System.out.println("Ingrese la dimensión:");
-            int dimension = escaneaNum(50);
-
-            System.out.println("Ingrese la dimensión:");
-            int esquemaReemplazo = escaneaNum(3);
-
-            AG ag = new AG();
-            double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed,
-                    probCruza, probMutacion, dimension, esquemaReemplazo);
-            Evaluador evaluador = new Evaluador();
-            System.out.println("El valor de la función es: " + evaluador.evaluaEn(numFun,
-                    solucion));
+            ejecutarAlgoritmoGenetico();
 
         } else {
             System.out.println("Opción inválida");
         }
+    }
+
+    private static void ejecutarAlgoritmoGenetico() {
+        imprimeMenu(2);
+        int numFun = escaneaNum(8);
+
+        System.out.println("Ingrese el tamaño de la población:");
+        int tamPoblacion = escaneaNum(200);
+
+        System.out.println("Ingrese la semilla para generar la población inicial:");
+        int seed = escaneaNum(Integer.MAX_VALUE);
+
+        double probCruza = escaneaProba(1);
+
+        // double probMutacion = escaneaProba(2);
+        double probMutacion = 2 / (double) tamPoblacion;
+
+        System.out.println("Ingrese la dimensión:");
+        int dimension = escaneaNum(50);
+
+        System.out.println("Ingrese la dimensión:");
+        int esquemaReemplazo = escaneaNum(3);
+
+        AG ag = new AG();
+        double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed,
+                probCruza, probMutacion, dimension, esquemaReemplazo);
+        Evaluador evaluador = new Evaluador();
+        System.out.println("El valor de la función es: " + evaluador.evaluaEn(numFun,
+                solucion));
+    }
+
+    private static void ejecutarRecocido() {
+        imprimeMenu(2);
+        int numFun = escaneaNum(8);
+
+        imprimeMenu(3);
+        int enfriamiento = escaneaNum(8);
+
+        System.out.println("Ingrese la dimensión:");
+        int dimension = escaneaNum(50);
+
+        OptimizacionCombinatoria metodoOptimizacion = new OptimizacionCombinatoria();
+        metodoOptimizacion.ejecutarAlgoritmo(enfriamiento, numFun, dimension);
     }
 
     /**
