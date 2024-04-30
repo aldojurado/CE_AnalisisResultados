@@ -4,11 +4,13 @@ import java.io.IOException;
 
 public class OptimizacionCombinatoria {
 
-    public void ejecutarAlgoritmo(int enfriamiento, int numFun, int dimension) {
+    public void ejecutarAlgoritmo(int enfriamiento, int numFun, int dimension, int seed) {
         Evaluador evaluador = new Evaluador();
         // Recocido simulado
         // solsIteradasR(enfriamiento, numFun, dimension);
-        vsEnfriamientos(enfriamiento, numFun, dimension);
+        for (int i = 1; i < 3; i++) {
+            vsEnfriamientos(i, numFun, dimension, seed);
+        }
 
     }
 
@@ -39,7 +41,7 @@ public class OptimizacionCombinatoria {
         Recocido recocido = new Recocido();
         for (int i = 0; i < 30; i++) {
             System.out.println("\u001B[32m\nBúsqueda # " + i + ":\u001B[0m");
-            double[] res = recocido.recocido(enfriamiento, numFun, dimension);
+            double[] res = recocido.recocido(enfriamiento, numFun, dimension, 1456, i);
             double valor = evaluador.evaluaEn(numFun, res);
 
             imprimeSol(res, valor);
@@ -47,25 +49,14 @@ public class OptimizacionCombinatoria {
         }
     }
 
-    private void vsEnfriamientos(int enfriamiento, int numFun, int dimension) {
+    private void vsEnfriamientos(int enfriamiento, int numFun, int dimension, int seed) {
 
-        for (int j = 1; j < 6; j++) {
+        for (int i = 0; i < 30; i++) {
             Evaluador evaluador = new Evaluador();
             Recocido recocido = new Recocido();
-            double mejor = Double.MAX_VALUE;
-            double promedio = 0;
-            for (int i = 0; i < 30; i++) {
-                double[] res = recocido.recocido(enfriamiento, j, dimension);
-                double valor = evaluador.evaluaEn(numFun, res);
-                promedio += valor;
-                if (valor < mejor) {
-                    mejor = valor;
-                }
-
-            }
-            promedio /= 30;
-            System.out.println("Mejor valor de fun " + nombreFuncion(j) + ": " + mejor);
-            System.out.println("Valor promedio de fun " + nombreFuncion(j) + ": " + promedio);
+            double[] res = recocido.recocido(enfriamiento, numFun, dimension, seed++, i);
+            double valor = evaluador.evaluaEn(numFun, res);
+            System.out.println("\u001B[32m\nBúsqueda # " + i + " valor: " + valor + " \u001B[0m");
         }
     }
 

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class AG {
     final int NBITS = 22;
-    final int MAXITER = 1000;
+    final int MAXITER = 15000;
 
     public double[] algoritmoGenetico(int numFun, int tamPoblacion, int seed, double probCruza, double probMutacion,
             int dimension, int estrategiaSeleccion, int numArchivo) {

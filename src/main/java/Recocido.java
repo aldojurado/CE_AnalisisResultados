@@ -1,7 +1,11 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Recocido {
 
     final int NBITS = 22;
-    final int MAXITER = 100000;
+    final int MAXITER = 15000;
 
     /**
      * Método que ejecuta el algoritmo de recocido simulado
@@ -10,19 +14,19 @@ public class Recocido {
      * @param dimension es la dimensión de la función
      * @return un arreglo con la solución encontrada
      */
-    public double[] recocido(int enfriamiento, int numFun, int dimension) {
+    public double[] recocido(int enfriamiento, int numFun, int dimension, int seed, int numArchivo) {
         Binario bin = new Binario();
         Evaluador eval = new Evaluador();
         double[] intervalo = eval.intervalo(numFun);
+        double[] actual = new double[MAXITER];
 
         // solución inicial y temperatura inicial
-        int[] solucion = bin.generaSolucionAleatoria(NBITS * dimension);
+        int[] solucion = bin.generaSolucionAleatoria(NBITS * dimension, seed);
         double temp = 10000;
         int numIt = 0;
 
         // condición de término
         while (numIt < MAXITER && temp > 0) {
-            numIt++;
 
             // seleccionamos un vecino
             int[] vecino = bin.vecinoRnd(solucion);
@@ -39,12 +43,41 @@ public class Recocido {
                 }
             }
 
+            // guardamos el valor de la solución actual
+            actual[numIt] = valores[0];
+            numIt++;
             // actualizamos temperatura
             temp = enfriar(temp, enfriamiento, numIt);
 
         }
+        double ultimoValor = actual[numIt - 1];
+        for (int i = numIt; i < actual.length; i++) {
+            actual[i] = ultimoValor;
+        }
+        generarReporte(actual, enfriamiento, numArchivo);
         // regresamos la solución decodificada
         return bin.decodifica(solucion, NBITS, intervalo[0], intervalo[1]);
+    }
+
+    private void generarReporte(double[] actual, int enfriamiento, int numArchivo) {
+        String nombreArchivo = "src/output/solucionesContinuas/aptitud/SA" + enfriamiento + "_" + numArchivo + ".txt";
+        try {
+            FileWriter fileWriter = new FileWriter(nombreArchivo);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("# iteración promedio");
+            bufferedWriter.newLine();
+            for (int i = 0; i < actual.length; i++) {
+                bufferedWriter.write(i + " " + actual[i]);
+                bufferedWriter.newLine();
+            }
+
+            // Cerrar el BufferedWriter
+            bufferedWriter.close();
+
+            System.out.println("Texto guardado en el archivo: " + nombreArchivo);
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el archivo: " + e.getMessage());
+        }
     }
 
     private double enfriar(double temp, int enfriamiento, int numIt) {

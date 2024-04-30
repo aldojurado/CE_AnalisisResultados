@@ -130,9 +130,9 @@ public class Binario {
         return vecino;
     }
 
-    public int[] generaSolucionAleatoria(int nBITS) {
+    public int[] generaSolucionAleatoria(int nBITS, int seed) {
         int[] res = new int[nBITS];
-        Random random = new Random();
+        Random random = new Random(seed);
         for (int i = 0; i < nBITS; i++) {
             res[i] = random.nextInt(2);
         }
