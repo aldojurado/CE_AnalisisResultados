@@ -24,10 +24,12 @@ public class AG {
             p.evaluarPoblacion();
             mejor[iteracion] = p.mejorAptitud();
             promedio[iteracion] = p.promedioAptitud();
-            hamilton[iteracion] = p.hamilton();
-            hamiltonAlMej[iteracion] = p.hamiltonAlMejor();
-            euclides[iteracion] = p.euclides();
-            euclidesAlMej[iteracion] = p.euclidesAlMejor();
+            /*
+             * hamilton[iteracion] = p.hamilton();
+             * hamiltonAlMej[iteracion] = p.hamiltonAlMejor();
+             * euclides[iteracion] = p.euclides();
+             * euclidesAlMej[iteracion] = p.euclidesAlMejor();
+             */
 
             iteracion++;
             // 1.-Selección de padres por ruleta
@@ -56,8 +58,8 @@ public class AG {
             p = hijos.clone();
         }
         generarReporte(mejor, promedio, numArchivo, numFun);
-        generarDiversidad(hamilton, hamiltonAlMej, numArchivo, numFun, "hamilton");
-        generarDiversidad(euclides, euclidesAlMej, numArchivo, numFun, "euclides");
+        // generarDiversidad(hamilton, hamiltonAlMej, numArchivo, numFun, "hamilton");
+        // generarDiversidad(euclides, euclidesAlMej, numArchivo, numFun, "euclides");
         p.evaluarPoblacion();
         return p.mejor();
     }
