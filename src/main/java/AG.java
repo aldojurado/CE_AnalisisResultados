@@ -7,7 +7,7 @@ public class AG {
     final int MAXITER = 1000;
 
     public double[] algoritmoGenetico(int numFun, int tamPoblacion, int seed, double probCruza, double probMutacion,
-            int dimension) {
+            int dimension, int estrategiaSeleccion) {
         // Inicializar población
         Poblacion p = new Poblacion(tamPoblacion, NBITS, seed, dimension, numFun);
         double[] promedio = new double[MAXITER];
@@ -24,20 +24,22 @@ public class AG {
             iteracion++;
             // 1.-Selección de padres por ruleta
             Poblacion hijos = p.clone();
-            // 2.-Recombinación, cruz a de un punto con probabilidad probCruza 2 sugerido
-            hijos.seleccionarPadresRecombinar(probCruza);
+            if (estrategiaSeleccion == 1 || estrategiaSeleccion == 2) {
+                // realiza la cruza por ruleta
+                hijos.seleccionarPadresRuletaRecombinar(probCruza);
 
-            /*
-             * 3.-Mutación, intercambio 1 bit con probabilidad probMutacion
-             * 2 / (tamPoblacion) sugerido para que se muten dos individuos
-             */
+                if (estrategiaSeleccion == 2) {
+                    hijos.elite();
+
+                }
+
+            } else if (estrategiaSeleccion == 3) {
+                hijos.seleccionarPadresReemplazarPeores(probCruza);
+
+            }
+
             hijos.mutar(probMutacion);
-
-            // Elitismo guardamos al mejor individuo de la población actual antes de
-            // evaluarla de nuevo en la siguiente iteración
-            hijos.elite();
-
-            // 4.-Reemplazo generacional
+            // reemplazo de la nueva generación (sin importar qué estrategia se haya usado)
             p = hijos.clone();
         }
         generarReporte(mejor, promedio);

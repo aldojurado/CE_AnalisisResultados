@@ -93,7 +93,7 @@ public class Poblacion implements Cloneable {
      * 
      * @param probCruza
      */
-    public void seleccionarPadresRecombinar(double probCruza) {
+    public void seleccionarPadresRuletaRecombinar(double probCruza) {
         int[][] nuevaGeneracion = new int[tam][numBits * dimension];
         int numHijos = 0;
 
@@ -105,6 +105,28 @@ public class Poblacion implements Cloneable {
             // Agregar hijos a la nueva generación
             for (int i = 0; i < hijos.length && numHijos < tam; i++) {
                 nuevaGeneracion[numHijos++] = hijos[i];
+            }
+        }
+        individuos = nuevaGeneracion;
+    }
+
+    /**
+     * Selecciona padres por ruleta y el hijo generado
+     * 
+     * @param probCruza
+     */
+    public void seleccionarPadresReemplazarPeores(double probCruza) {
+        double promedio = promedioAptitud();
+        int[][] nuevaGeneracion = new int[tam][numBits * dimension];
+        // Reemplazamos a todos los individuos que tengan una aptitud menor al promedio
+        for (int i = 0; i < nuevaGeneracion.length; i++) {
+            if (evaluaciones[i] < promedio) {
+                nuevaGeneracion[i] = individuos[i];
+            } else {
+                int[] padre1 = seleccionarPadre();
+                int[] padre2 = seleccionarPadre();
+                int[][] hijos = cruzarN(padre1, padre2, probCruza);
+                nuevaGeneracion[i] = hijos[0];
             }
         }
         individuos = nuevaGeneracion;
@@ -275,4 +297,5 @@ public class Poblacion implements Cloneable {
 
         individuos[elite] = mejorIndividuo;
     }
+
 }

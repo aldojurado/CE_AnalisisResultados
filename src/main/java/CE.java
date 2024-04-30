@@ -48,9 +48,12 @@ public class CE {
             System.out.println("Ingrese la dimensión:");
             int dimension = escaneaNum(50);
 
+            System.out.println("Ingrese la dimensión:");
+            int esquemaReemplazo = escaneaNum(3);
+
             AG ag = new AG();
             double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed,
-                    probCruza, probMutacion, dimension);
+                    probCruza, probMutacion, dimension, esquemaReemplazo);
             Evaluador evaluador = new Evaluador();
             System.out.println("El valor de la función es: " + evaluador.evaluaEn(numFun,
                     solucion));
