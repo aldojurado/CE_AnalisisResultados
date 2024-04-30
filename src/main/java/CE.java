@@ -39,15 +39,19 @@ public class CE {
         System.out.println("Ingrese la dimensión:");
         int dimension = escaneaNum(50);
 
-        System.out.println("Ingrese la dimensión:");
+        imprimeMenu(4);
         int esquemaReemplazo = escaneaNum(3);
 
-        AG ag = new AG();
-        double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed,
-                probCruza, probMutacion, dimension, esquemaReemplazo);
-        Evaluador evaluador = new Evaluador();
-        System.out.println("El valor de la función es: " + evaluador.evaluaEn(numFun,
-                solucion));
+        for (int j = 1; j < 6; j++) {
+            for (int i = 0; i < 30; i++) {
+                AG ag = new AG();
+                double[] solucion = ag.algoritmoGenetico(j, tamPoblacion, seed++,
+                        probCruza, probMutacion, dimension, esquemaReemplazo, i);
+                Evaluador evaluador = new Evaluador();
+                System.out.println("El valor de la función es: " + evaluador.evaluaEn(numFun,
+                        solucion));
+            }
+        }
     }
 
     private static void ejecutarRecocido() {
@@ -138,9 +142,14 @@ public class CE {
             System.out.println("7. Styblinski-Tang Function");
             System.out.println("8. Dixon-Price Function");
         } else if (opcion == 3) {
-            System.out.println(GREEN + "Seleccione la función a evaluar:" + BLANCO);
+            System.out.println(GREEN + "Seleccione el esquema de enfriamiento:" + BLANCO);
             System.out.println("1. Enfriamiento 1");
             System.out.println("2. Enfriamiento 2");
+        } else if (opcion == 4) {
+            System.out.println(GREEN + "Seleccione el esquema de reemplazo:" + BLANCO);
+            System.out.println("1. Reemplazo generacional");
+            System.out.println("2. Reemplazo elitista");
+            System.out.println("3. Reemplazo de los peores");
         }
     }
 

@@ -1,5 +1,5 @@
-    plot "reporte.txt" using 1:2 title 'Mejor' w l, \
-            "reporte.txt" using 1:3 title 'Promedio' w l
+    plot "3_23.txt" using 1:2 title 'Mejor' w l, \
+            "3_23.txt" using 1:3 title 'Promedio' w l
     set  xrange [0:1000]
     #set  yrange [0:3000]
     set terminal png nocrop enhanced size 800, 640

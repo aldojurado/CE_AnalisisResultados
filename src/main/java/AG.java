@@ -7,7 +7,7 @@ public class AG {
     final int MAXITER = 1000;
 
     public double[] algoritmoGenetico(int numFun, int tamPoblacion, int seed, double probCruza, double probMutacion,
-            int dimension, int estrategiaSeleccion) {
+            int dimension, int estrategiaSeleccion, int numArchivo) {
         // Inicializar población
         Poblacion p = new Poblacion(tamPoblacion, NBITS, seed, dimension, numFun);
         double[] promedio = new double[MAXITER];
@@ -23,6 +23,11 @@ public class AG {
 
             iteracion++;
             // 1.-Selección de padres por ruleta
+            /*
+             * 1.- esquema generacional
+             * 2.- elitismo
+             * 3.- reemplazo de los peores
+             */
             Poblacion hijos = p.clone();
             if (estrategiaSeleccion == 1 || estrategiaSeleccion == 2) {
                 // realiza la cruza por ruleta
@@ -42,13 +47,13 @@ public class AG {
             // reemplazo de la nueva generación (sin importar qué estrategia se haya usado)
             p = hijos.clone();
         }
-        generarReporte(mejor, promedio);
+        generarReporte(mejor, promedio, numArchivo, numFun);
         p.evaluarPoblacion();
         return p.mejor();
     }
 
-    private void generarReporte(double[] mejor, double[] promedio) {
-        String nombreArchivo = "src/output/solucionesContinuas/reporte.txt";
+    private void generarReporte(double[] mejor, double[] promedio, int numArchivo, int numFun) {
+        String nombreArchivo = "src/output/solucionesContinuas/" + numFun + "_" + numArchivo + ".txt";
         try {
             FileWriter fileWriter = new FileWriter(nombreArchivo);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
