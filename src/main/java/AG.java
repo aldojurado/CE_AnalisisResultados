@@ -12,6 +12,10 @@ public class AG {
         Poblacion p = new Poblacion(tamPoblacion, NBITS, seed, dimension, numFun);
         double[] promedio = new double[MAXITER];
         double[] mejor = new double[MAXITER];
+        double[] hamilton = new double[MAXITER];
+        double[] hamiltonAlMej = new double[MAXITER];
+        double[] euclides = new double[MAXITER];
+        double[] euclidesAlMej = new double[MAXITER];
 
         // evaluar población
 
@@ -20,6 +24,10 @@ public class AG {
             p.evaluarPoblacion();
             mejor[iteracion] = p.mejorAptitud();
             promedio[iteracion] = p.promedioAptitud();
+            hamilton[iteracion] = p.hamilton();
+            hamiltonAlMej[iteracion] = p.hamiltonAlMejor();
+            euclides[iteracion] = p.euclides();
+            euclidesAlMej[iteracion] = p.euclidesAlMejor();
 
             iteracion++;
             // 1.-Selección de padres por ruleta
@@ -48,12 +56,36 @@ public class AG {
             p = hijos.clone();
         }
         generarReporte(mejor, promedio, numArchivo, numFun);
+        generarDiversidad(hamilton, hamiltonAlMej, numArchivo, numFun, "hamilton");
+        generarDiversidad(euclides, euclidesAlMej, numArchivo, numFun, "euclides");
         p.evaluarPoblacion();
         return p.mejor();
     }
 
+    private void generarDiversidad(double[] hamilton, double[] euclides, int numArchivo, int numFun, String tipo) {
+        String nombreArchivo = "src/output/solucionesContinuas/diversidad/" + tipo + "_" + numFun + "_" + numArchivo
+                + ".txt";
+        try {
+            FileWriter fileWriter = new FileWriter(nombreArchivo);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("# iteración promedio promedioAlMejor");
+            bufferedWriter.newLine();
+            for (int i = 0; i < hamilton.length; i++) {
+                bufferedWriter.write(i + " " + hamilton[i] + " " + euclides[i]);
+                bufferedWriter.newLine();
+            }
+
+            // Cerrar el BufferedWriter
+            bufferedWriter.close();
+
+            System.out.println("Texto guardado en el archivo: " + nombreArchivo);
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
+
     private void generarReporte(double[] mejor, double[] promedio, int numArchivo, int numFun) {
-        String nombreArchivo = "src/output/solucionesContinuas/" + numFun + "_" + numArchivo + ".txt";
+        String nombreArchivo = "src/output/solucionesContinuas/aptitud/" + numFun + "_" + numArchivo + ".txt";
         try {
             FileWriter fileWriter = new FileWriter(nombreArchivo);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);

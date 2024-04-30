@@ -298,4 +298,75 @@ public class Poblacion implements Cloneable {
         individuos[elite] = mejorIndividuo;
     }
 
+    /**
+     * Diversidad hamiltoniana de la población
+     * 
+     * @return Devuelve la distancia Hamiltoniana de todos los individuos contra
+     *         todos
+     */
+    public double hamilton() {
+        double cont = 0;
+        double hamilton = 0;
+        for (int i = 0; i < tam; i++) {
+            for (int j = i + 1; j < tam; j++) {
+                hamilton += hamiltoniana(individuos[i], individuos[j]);
+                cont++;
+            }
+        }
+        return hamilton / cont;
+    }
+
+    /**
+     * Devuelve la distancia hamiltoniana de dos individuos
+     * 
+     * @param individuo1
+     * @param individuo2
+     * @return la distancia hamiltoniana de individuo1 e individuo2
+     */
+    private double hamiltoniana(int[] individuo1, int[] individuo2) {
+        double hamilton = 0;
+        for (int i = 0; i < individuo1.length; i++) {
+            if (individuo1[i] != individuo2[i]) {
+                hamilton++;
+            }
+        }
+        return hamilton;
+    }
+
+    public double euclides() {
+        double cont = 0;
+        double euclides = 0;
+        for (int i = 0; i < tam; i++) {
+            for (int j = i + 1; j < tam; j++) {
+                euclides += euclidiana(individuos[i], individuos[j]);
+                cont++;
+            }
+        }
+        return euclides / cont;
+    }
+
+    private double euclidiana(int[] individuo1, int[] individuo2) {
+        double euclides = 0;
+        for (int i = 0; i < individuo1.length; i++) {
+            euclides += Math.pow(individuo1[i] - individuo2[i], 2);
+        }
+        return Math.sqrt(euclides);
+    }
+
+    public double hamiltonAlMejor() {
+        double hamilton = 0;
+        for (int i = 0; i < tam; i++) {
+            hamilton += hamiltoniana(individuos[i], mejorIndividuo);
+        }
+        return hamilton / tam;
+    }
+
+    public double euclidesAlMejor() {
+        double euclides = 0;
+        for (int i = 0; i < tam; i++) {
+            euclides += euclidiana(individuos[i], mejorIndividuo);
+        }
+        return euclides / tam;
+    }
+
 }
