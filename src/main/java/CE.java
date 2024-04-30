@@ -45,14 +45,14 @@ public class CE {
         int esquemaReemplazo = escaneaNum(3);
 
         System.out.println(GREEN + "Estrategia de selección: " + 2 + BLANCO);
-        for (int j = 1; j < 6; j++) {
+        for (int j = 1; j < 4; j++) {
             int seed2 = seed;
             double mejor = Double.MAX_VALUE;
             double promedio = 0;
             for (int i = 0; i < 30; i++) {
                 AG ag = new AG();
-                double[] solucion = ag.algoritmoGenetico(j, tamPoblacion, seed2++,
-                        probCruza, probMutacion, dimension, 2, i);
+                double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed2++,
+                        probCruza, probMutacion, dimension, j, i);
                 Evaluador evaluador = new Evaluador();
                 double valor = evaluador.evaluaEn(numFun, solucion);
                 promedio += valor;
@@ -77,8 +77,11 @@ public class CE {
         System.out.println("Ingrese la dimensión:");
         int dimension = escaneaNum(50);
 
+        System.out.println("Ingrese la semilla:");
+        int semilla = escaneaNum(Integer.MAX_VALUE);
+
         OptimizacionCombinatoria metodoOptimizacion = new OptimizacionCombinatoria();
-        metodoOptimizacion.ejecutarAlgoritmo(enfriamiento, numFun, dimension);
+        metodoOptimizacion.ejecutarAlgoritmo(enfriamiento, numFun, dimension, semilla);
     }
 
     /**

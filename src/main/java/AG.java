@@ -57,7 +57,8 @@ public class AG {
             // reemplazo de la nueva generación (sin importar qué estrategia se haya usado)
             p = hijos.clone();
         }
-        generarReporte(mejor, promedio, numArchivo, numFun);
+        generarReportePromedio(promedio, numArchivo, estrategiaSeleccion);
+        // generarReporte(mejor, promedio, numArchivo, numFun);
         // generarDiversidad(hamilton, hamiltonAlMej, numArchivo, numFun, "hamilton");
         // generarDiversidad(euclides, euclidesAlMej, numArchivo, numFun, "euclides");
         p.evaluarPoblacion();
@@ -87,7 +88,7 @@ public class AG {
     }
 
     private void generarReporte(double[] mejor, double[] promedio, int numArchivo, int numFun) {
-        String nombreArchivo = "src/output/solucionesContinuas/aptitud/" + numFun + "_" + numArchivo + ".txt";
+        String nombreArchivo = "src/output/solucionesContinuas/aptitud/AG" + numFun + "_" + numArchivo + ".txt";
         try {
             FileWriter fileWriter = new FileWriter(nombreArchivo);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -95,6 +96,27 @@ public class AG {
             bufferedWriter.newLine();
             for (int i = 0; i < promedio.length; i++) {
                 bufferedWriter.write(i + " " + mejor[i] + " " + promedio[i]);
+                bufferedWriter.newLine();
+            }
+
+            // Cerrar el BufferedWriter
+            bufferedWriter.close();
+
+            System.out.println("Texto guardado en el archivo: " + nombreArchivo);
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
+
+    private void generarReportePromedio(double[] promedio, int numArchivo, int numFun) {
+        String nombreArchivo = "src/output/solucionesContinuas/aptitud/AG" + numFun + "_" + numArchivo + ".txt";
+        try {
+            FileWriter fileWriter = new FileWriter(nombreArchivo);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("# iteración promedio");
+            bufferedWriter.newLine();
+            for (int i = 0; i < promedio.length; i++) {
+                bufferedWriter.write(i + " " + promedio[i]);
                 bufferedWriter.newLine();
             }
 
