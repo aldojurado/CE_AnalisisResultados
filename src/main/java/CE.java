@@ -3,6 +3,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.swing.GrayFilter;
+
 public class CE {
     final static String GREEN = "\u001B[32m";
     final static String BLANCO = "\u001B[0m";
@@ -42,16 +44,27 @@ public class CE {
         imprimeMenu(4);
         int esquemaReemplazo = escaneaNum(3);
 
+        System.out.println(GREEN + "Estrategia de selección: " + 2 + BLANCO);
         for (int j = 1; j < 6; j++) {
+            int seed2 = seed;
+            double mejor = Double.MAX_VALUE;
+            double promedio = 0;
             for (int i = 0; i < 30; i++) {
                 AG ag = new AG();
-                double[] solucion = ag.algoritmoGenetico(j, tamPoblacion, seed++,
-                        probCruza, probMutacion, dimension, esquemaReemplazo, i);
+                double[] solucion = ag.algoritmoGenetico(j, tamPoblacion, seed2++,
+                        probCruza, probMutacion, dimension, 2, i);
                 Evaluador evaluador = new Evaluador();
-                System.out.println("El valor de la función es: " + evaluador.evaluaEn(numFun,
-                        solucion));
+                double valor = evaluador.evaluaEn(numFun, solucion);
+                promedio += valor;
+                if (valor < mejor) {
+                    mejor = valor;
+                }
             }
+            System.out.println("\nFunción: " + j);
+            System.out.println("Mejor valor: " + mejor);
+            System.out.println("Promedio: " + promedio / 30);
         }
+
     }
 
     private static void ejecutarRecocido() {
