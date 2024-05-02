@@ -1,5 +1,5 @@
-    plot "entropia/AG_entropia_Fun_Rosenbrock.txt" using 1:2 title 'Entropía' w l, \
-            "entropia/AG_entropia_Fun_Rosenbrock.txt" using 1:3 title 'Distancia Promedio al mejor' w l
+    plot "boxplot/AG2_4_22.txt" using 1:2 title 'Distancia Promedio' w l, \
+            "boxplot/AG2_4_22.txt" using 1:3 title 'Distancia Promedio al mejor' w l
     #set  xrange [0:1000]
     #set  yrange [0:3000]
     set terminal png nocrop enhanced size 800, 640

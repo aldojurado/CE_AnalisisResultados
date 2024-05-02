@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class AG {
     final int NBITS = 22;
-    final int MAXITER = 15000;
+    final int MAXITER = 2500;
 
     public double[] algoritmoGenetico(int numFun, int tamPoblacion, int seed, double probCruza, double probMutacion,
             int dimension, int estrategiaSeleccion, int numArchivo) {
@@ -24,6 +24,8 @@ public class AG {
         int iteracion = 0;
         while (iteracion < MAXITER) {
             p.evaluarPoblacion();
+            // mejor[iteracion] = p.mejorAptitud();
+            // promedio[iteracion] = p.promedioAptitud();
             /*
              * mejor[iteracion] = p.mejorAptitud();
              * promedio[iteracion] = p.promedioAptitud();
@@ -69,6 +71,8 @@ public class AG {
         }
         generarReporteFrecuencias(frecuencias, numArchivo, numFun);
         // generarReportePromedio(promedio, numArchivo, estrategiaSeleccion);
+        // generarReportePromedio(mejor, numArchivo, estrategiaSeleccion);
+        // generarReporte(mejor, promedio, numArchivo, estrategiaSeleccion, numFun);
         // generarReporte(mejor, promedio, numArchivo, numFun);
         // generarDiversidad(hamilton, hamiltonAlMej, numArchivo, numFun, "hamilton");
         // generarDiversidad(euclides, euclidesAlMej, numArchivo, numFun, "euclides");
@@ -145,8 +149,10 @@ public class AG {
         }
     }
 
-    private void generarReporte(double[] mejor, double[] promedio, int numArchivo, int numFun) {
-        String nombreArchivo = "src/output/solucionesContinuas/aptitud/AG" + numFun + "_" + numArchivo + ".txt";
+    private void generarReporte(double[] mejor, double[] promedio, int numArchivo, int esquemaReemplazo, int fun) {
+        String nombreArchivo = "src/output/solucionesContinuas/boxplot/AG" + esquemaReemplazo + "_" + fun + "_"
+                + numArchivo
+                + ".txt";
         try {
             FileWriter fileWriter = new FileWriter(nombreArchivo);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -166,15 +172,15 @@ public class AG {
         }
     }
 
-    private void generarReportePromedio(double[] promedio, int numArchivo, int numFun) {
+    private void generarReportePromedio(double[] mejor, double[] promedio, int numArchivo, int numFun) {
         String nombreArchivo = "src/output/solucionesContinuas/aptitud/AG" + numFun + "_" + numArchivo + ".txt";
         try {
             FileWriter fileWriter = new FileWriter(nombreArchivo);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write("# iteración promedio");
+            bufferedWriter.write("# iteración mejor promedio");
             bufferedWriter.newLine();
             for (int i = 0; i < promedio.length; i++) {
-                bufferedWriter.write(i + " " + promedio[i]);
+                bufferedWriter.write(i + " " + mejor[i] + " " + promedio[i]);
                 bufferedWriter.newLine();
             }
 

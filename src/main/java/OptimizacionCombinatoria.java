@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class OptimizacionCombinatoria {
 
@@ -50,13 +51,35 @@ public class OptimizacionCombinatoria {
     }
 
     private void vsEnfriamientos(int enfriamiento, int numFun, int dimension, int seed) {
-
+        double[] mej = new double[30];
         for (int i = 0; i < 30; i++) {
             Evaluador evaluador = new Evaluador();
             Recocido recocido = new Recocido();
             double[] res = recocido.recocido(enfriamiento, numFun, dimension, seed++, i);
             double valor = evaluador.evaluaEn(numFun, res);
             System.out.println("\u001B[32m\nBúsqueda # " + i + " valor: " + valor + " \u001B[0m");
+            mej[i] = valor;
+        }
+        generaCSV(mej, enfriamiento);
+    }
+
+    private void generaCSV(double[] mej, int j) {
+        String rutaArchivo = "src/output/solucionesContinuas/boxplot/SA" + j + "_" + ".csv";
+        try {
+            FileWriter writer = new FileWriter(rutaArchivo);
+
+            // Escribir los elementos del arreglo en la primera columna del archivo CSV
+            for (double elemento : mej) {
+                writer.append(String.valueOf(elemento)).append("\n");
+            }
+
+            writer.flush();
+            writer.close();
+
+            System.out.println("Archivo CSV generado correctamente: " + rutaArchivo);
+        } catch (IOException e) {
+            System.err.println("Error al generar el archivo CSV: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
