@@ -367,6 +367,45 @@ public class Poblacion implements Cloneable {
             euclides += euclidiana(individuos[i], mejorIndividuo);
         }
         return euclides / tam;
+
+    }
+
+    public double entropia() {
+        int[] frecuencias = new int[numBits * dimension + 1];
+        double cont = 0;
+        for (int i = 0; i < tam; i++) {
+            for (int j = i + 1; j < tam; j++) {
+                double distancia = hamiltoniana(individuos[i], individuos[j]);
+                frecuencias[(int) distancia]++;
+                cont++;
+            }
+        }
+        return entropia(frecuencias, cont);
+    }
+
+    private double entropia(int[] frecuencias, double cont) {
+        double entropia = 0;
+        for (int i = 0; i < frecuencias.length; i++) {
+            double pi = (double) frecuencias[i] / cont;
+            if (pi != 0) {
+                double log2 = Math.log(pi) / Math.log(2);
+                entropia += pi * log2;
+            }
+        }
+        return -entropia;
+    }
+
+    public int[] frecuencias() {
+        int[] frecuencias = new int[numBits * dimension + 1];
+        double cont = 0;
+        for (int i = 0; i < tam; i++) {
+            for (int j = i + 1; j < tam; j++) {
+                double distancia = hamiltoniana(individuos[i], individuos[j]);
+                frecuencias[(int) distancia]++;
+                cont++;
+            }
+        }
+        return frecuencias;
     }
 
 }

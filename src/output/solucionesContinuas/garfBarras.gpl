@@ -1,0 +1,25 @@
+set terminal pngcairo enhanced font 'arial,10' size 800, 600
+set output 'grafica_barras.png'
+
+# Título del gráfico
+set title "Frecuencias de Distancia"
+
+# Etiqueta de los ejes
+set xlabel "Distancia"
+set ylabel "Frecuencia"
+
+# Rango de los ejes
+set xrange [150:300]
+set yrange [0:*]
+
+# Estilo de las barras
+set style fill solid border -1
+
+# Tamaño de las barras
+set boxwidth 0.5
+
+# Título de la leyenda
+set key off
+
+# Dibujar el gráfico de barras
+plot  "entropia/AG_entropiaFrec0_Fun_Rosenbrock.txt" using 1:2 with boxes lc rgb "blue" notitle

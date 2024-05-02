@@ -1,10 +1,10 @@
-    plot "aptitud/SA1_0.txt" using 1:2 title 'Distancia Promedio' w l, \
-            "aptitud/SA1_0.txt" using 1:3 title 'Distancia Promedio al mejor' w l
+    plot "entropia/AG_entropia_Fun_Rosenbrock.txt" using 1:2 title 'Entropía' w l, \
+            "entropia/AG_entropia_Fun_Rosenbrock.txt" using 1:3 title 'Distancia Promedio al mejor' w l
     #set  xrange [0:1000]
     #set  yrange [0:3000]
     set terminal png nocrop enhanced size 800, 640
     set output 'grafica1.png'
-    set title "Diversidad, Distancia euclidiana al mejor y promedio. Seed 1654 Griewank function dim 50"
+    set title "Entropia. Seed 1654 Rosenbrock function dim 20"
     set xlabel "Iteraciones"
     set ylabel "f(x)"
     replot
