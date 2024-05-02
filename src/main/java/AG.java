@@ -22,8 +22,8 @@ public class AG {
         int iteracion = 0;
         while (iteracion < MAXITER) {
             p.evaluarPoblacion();
-            mejor[iteracion] = p.mejorAptitud();
-            promedio[iteracion] = p.promedioAptitud();
+            // mejor[iteracion] = p.mejorAptitud();
+            // promedio[iteracion] = p.promedioAptitud();
             /*
              * hamilton[iteracion] = p.hamilton();
              * hamiltonAlMej[iteracion] = p.hamiltonAlMejor();
@@ -58,7 +58,7 @@ public class AG {
             p = hijos.clone();
         }
         // generarReportePromedio(mejor, numArchivo, estrategiaSeleccion);
-        generarReporte(mejor, promedio, numArchivo, estrategiaSeleccion, numFun);
+        // generarReporte(mejor, promedio, numArchivo, estrategiaSeleccion, numFun);
         // generarReporte(mejor, promedio, numArchivo, numFun);
         // generarDiversidad(hamilton, hamiltonAlMej, numArchivo, numFun, "hamilton");
         // generarDiversidad(euclides, euclidesAlMej, numArchivo, numFun, "euclides");

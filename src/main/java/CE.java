@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.swing.GrayFilter;
@@ -45,17 +46,52 @@ public class CE {
         int esquemaReemplazo = escaneaNum(3);
 
         for (int k = 1; k < 4; k++) {
-            for (int j = 1; j < 6; j++) {
-                int seed2 = seed;
-                for (int i = 0; i < 30; i++) {
-                    AG ag = new AG();
-                    ag.algoritmoGenetico(j, tamPoblacion, seed2++,
-                            probCruza, probMutacion, dimension, k, i);
+            double[] mej = new double[30];
+            int seed2 = seed;
+            for (int i = 0; i < 30; i++) {
+                AG ag = new AG();
+                double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed2++,
+                        probCruza, probMutacion, dimension, k, i);
+                Evaluador evaluador = new Evaluador();
+                double valor = evaluador.evaluaEn(numFun, solucion);
+                mej[i] = valor;
+                // System.out.println(mej[i]);
 
-                }
             }
+            System.out.println("Generando csv");
+            generaCSV(mej, k);
         }
 
+    }
+
+    private static void generaCSV(double[] mej, int j) {
+        double[] ordenado = ordena(mej);
+        String rutaArchivo = "src/output/solucionesContinuas/boxplot/bxp_" + j + ".csv";
+        String rutArch = "src/output/solucionesContinuas/boxplot/" + j + "_" + ".csv";
+        try {
+            FileWriter writer = new FileWriter(rutArch);
+
+            // Escribir los elementos del arreglo en la primera columna del archivo CSV
+            for (double elemento : ordenado) {
+                writer.append(String.valueOf(elemento)).append("\n");
+            }
+
+            writer.flush();
+            writer.close();
+
+            System.out.println("Archivo CSV generado correctamente: " + rutaArchivo);
+        } catch (IOException e) {
+            System.err.println("Error al generar el archivo CSV: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private static double[] ordena(double[] mej) {
+
+        double[] arregloOrdenado = mej.clone();
+        Arrays.sort(arregloOrdenado);
+
+        return arregloOrdenado;
     }
 
     private static void ejecutarRecocido() {
