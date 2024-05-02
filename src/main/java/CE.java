@@ -44,25 +44,16 @@ public class CE {
         imprimeMenu(4);
         int esquemaReemplazo = escaneaNum(3);
 
-        System.out.println(GREEN + "Estrategia de selección: " + 2 + BLANCO);
-        for (int j = 1; j < 4; j++) {
-            int seed2 = seed;
-            double mejor = Double.MAX_VALUE;
-            double promedio = 0;
-            for (int i = 0; i < 30; i++) {
-                AG ag = new AG();
-                double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed2++,
-                        probCruza, probMutacion, dimension, j, i);
-                Evaluador evaluador = new Evaluador();
-                double valor = evaluador.evaluaEn(numFun, solucion);
-                promedio += valor;
-                if (valor < mejor) {
-                    mejor = valor;
+        for (int k = 1; k < 4; k++) {
+            for (int j = 1; j < 6; j++) {
+                int seed2 = seed;
+                for (int i = 0; i < 30; i++) {
+                    AG ag = new AG();
+                    ag.algoritmoGenetico(j, tamPoblacion, seed2++,
+                            probCruza, probMutacion, dimension, k, i);
+
                 }
             }
-            System.out.println("\nFunción: " + j);
-            System.out.println("Mejor valor: " + mejor);
-            System.out.println("Promedio: " + promedio / 30);
         }
 
     }
