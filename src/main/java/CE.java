@@ -11,7 +11,6 @@ public class CE {
     final static String BLANCO = "\u001B[0m";
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         imprimeMenu(1);
         int opcion = escaneaNum(2);
         if (opcion == 1) {
@@ -45,22 +44,40 @@ public class CE {
         imprimeMenu(4);
         int esquemaReemplazo = escaneaNum(3);
 
-        for (int k = 1; k < 4; k++) {
-            double[] mej = new double[30];
-            int seed2 = seed;
-            for (int i = 0; i < 30; i++) {
-                AG ag = new AG();
-                double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed2++,
-                        probCruza, probMutacion, dimension, k, i);
-                Evaluador evaluador = new Evaluador();
-                double valor = evaluador.evaluaEn(numFun, solucion);
-                mej[i] = valor;
-                // System.out.println(mej[i]);
-
+        // for (int k = 1; k < 4; k++) {
+        // double[] mej = new double[30];
+        int seed2 = seed;
+        double mejor = Double.MAX_VALUE;
+        double promedio = 0;
+        for (int i = 0; i < 30; i++) {
+            AG ag = new AG();
+            double[] solucion = ag.algoritmoGenetico(numFun, tamPoblacion, seed2++,
+                    probCruza, probMutacion, dimension, esquemaReemplazo, i);
+            Evaluador evaluador = new Evaluador();
+            double valor = evaluador.evaluaEn(numFun, solucion);
+            String resS = "[";
+            for (int j = 0; j < solucion.length - 1; j++) {
+                resS += solucion[j] + ", ";
             }
-            System.out.println("Generando csv");
-            generaCSV(mej, k);
+            resS += solucion[solucion.length - 1] + "]";
+
+            System.out.println(GREEN + "Búsqueda # " + BLANCO + i + " valor: " + valor);
+            System.out.println("Solución: " + resS);
+            if (valor < mejor) {
+                mejor = valor;
+            }
+            promedio += valor;
+
+            // mej[i] = valor;
+
+            // }
+            // generaCSV(mej, k);
         }
+        System.out.println("\n" + GREEN + "De las 30 ejecuciones:" + BLANCO);
+        System.out.println("Mejor valor: " + mejor);
+        System.out.println("Promedio: " + (promedio / 30));
+        System.out.println("Semillas: [" + seed + "-" + (seed + 30) + "]");
+        System.out.println("Dimensión: " + dimension);
 
     }
 
@@ -109,6 +126,8 @@ public class CE {
 
         OptimizacionCombinatoria metodoOptimizacion = new OptimizacionCombinatoria();
         metodoOptimizacion.ejecutarAlgoritmo(enfriamiento, numFun, dimension, semilla);
+        System.out.println("Semillas: [" + semilla + "-" + (semilla + 30) + "]");
+        System.out.println("Dimensión: " + dimension);
     }
 
     /**

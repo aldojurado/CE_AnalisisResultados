@@ -9,9 +9,7 @@ public class OptimizacionCombinatoria {
         Evaluador evaluador = new Evaluador();
         // Recocido simulado
         // solsIteradasR(enfriamiento, numFun, dimension);
-        for (int i = 1; i < 3; i++) {
-            vsEnfriamientos(i, numFun, dimension, seed);
-        }
+        vsEnfriamientos(enfriamiento, numFun, dimension, seed);
 
     }
 
@@ -51,16 +49,22 @@ public class OptimizacionCombinatoria {
     }
 
     private void vsEnfriamientos(int enfriamiento, int numFun, int dimension, int seed) {
-        double[] mej = new double[30];
+        // double[] mej = new double[30];
         for (int i = 0; i < 30; i++) {
             Evaluador evaluador = new Evaluador();
             Recocido recocido = new Recocido();
             double[] res = recocido.recocido(enfriamiento, numFun, dimension, seed++, i);
             double valor = evaluador.evaluaEn(numFun, res);
+            String resS = "[";
+            for (int j = 0; j < res.length - 1; j++) {
+                resS += res[j] + ", ";
+            }
+            resS += res[res.length - 1] + "]";
             System.out.println("\u001B[32m\nBúsqueda # " + i + " valor: " + valor + " \u001B[0m");
-            mej[i] = valor;
+            System.out.println("Solución: " + resS);
+            // mej[i] = valor;
         }
-        generaCSV(mej, enfriamiento);
+        // generaCSV(mej, enfriamiento);
     }
 
     private void generaCSV(double[] mej, int j) {

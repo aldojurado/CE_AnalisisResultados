@@ -69,7 +69,7 @@ public class AG {
             // reemplazo de la nueva generación (sin importar qué estrategia se haya usado)
             p = hijos.clone();
         }
-        generarReporteFrecuencias(frecuencias, numArchivo, numFun);
+        // generarReporteFrecuencias(frecuencias, numArchivo, numFun);
         // generarReportePromedio(promedio, numArchivo, estrategiaSeleccion);
         // generarReportePromedio(mejor, numArchivo, estrategiaSeleccion);
         // generarReporte(mejor, promedio, numArchivo, estrategiaSeleccion, numFun);
