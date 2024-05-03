@@ -69,3 +69,9 @@ La interfaz de texto es intuitiva y solo consiste en ir seleccionando respecto a
 Por cada ejecución se imprimirá la mejor solución encontrada y la aptitud de esta solución.
 
 Adicionalmente todas las gráficas generadas se guardaron en la carpeta **src/output/graficas**.
+
+# sobre los archivos generados
+Generamos cientos de archivos para poder realizar las gráficas, al final dejamos las más generales y las que contenían los datos más relevantes. 
+Estos fueron los de aptitud qeu contienen todo el historial de cómo fue mejorando y el promedio de aptitud (para GA) de cada iteración. 
+Los archivos generados abarcan las 5 estrategias con sus parametrizaciones, por las 30 ejecuciones que se realizaron con distintas semillas.
+Sobre la entropía dejamos los archivos con las frecuencias (población inicial y final) y el archivo con la entropia en cada ejecución
